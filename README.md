@@ -30,13 +30,18 @@ Realize um `fork` e suba o código desenvolvido dentro deste repositório.
 
 ### Questões complementares:
   1. Tem conhecimento em processos e ferramentas de ETL? Quantos anos de experiência? Quais cases foram aplicados?
+  R: Sim, tenho 6 anos de experiência de criação de ETL no SSIS utilizando a ferramenta SSDT (SQL Server Data Tools). Possuo vários cases sendo o principal a carga de dados diária, nosso pipeline de dados, ele se conecta com vários arquivos txt gerados através da plataforma Magellan (O Sistema principal é bem antigo, essa plataforma extrai os dados em txt) e se conecta também com uma base em oracle. Temos mais algumas fontes de dados mas essa duas são as principais. Esse ETL faz toda a transformação necessária para popular nosso data warehouse e atualizar os cubos. Também já desenvolvi ETLs para diversas áreas da empresa, desde finanças com a automatização do GLP276 (demoravam 3 dias para analisar, tratar os dados e gerar uma planilha, todo o processo caiu para no máximo 4 horas) até processos de automatizações para equipe de marketing e vendas.
   2. Tem experiência com ferramental Azure Data Factory?
+R: Conheço, mas não possuo experiência, porem não vejo dificuldade em aprender como a ferramenta funciona.
   3. Pode responder em um fluxograma (ou escrito em tópicos) um case de ETL onde:
       - Parte dos dados da origem estão em banco de dados Oracle e outra em CSV no Storage Bucket da AWS
       - O dado final deverá estar na base de dados SQL Server.
       - Deverá acontecer validação da entrada dos dados da origem.
       - Validação dos dados finais que foram processados.
       - Cálculos dos dados de origem, para geração de indicadores (que serão os dados finais).
+
+![image](https://github.com/user-attachments/assets/92980a79-eba4-419b-921b-8252571e61e2)
+
 
 ### O que será avaliado:
   - Padrão utilizado de desenvolvimento;
