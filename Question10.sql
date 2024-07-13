@@ -1,22 +1,22 @@
---Crie uma query que obtenha a lista de pedidos dos funcion·rios da regi„o 'Western';
+--Crie uma query que obtenha a lista de pedidos dos funcion√°rios da regi√£o 'Western';
 
 
 WITH EMPLOYEES_WESTERN AS ( SELECT DISTINCT E.EmployeeID AS ID
-							FROM Employees E
-							INNER JOIN EmployeeTerritories ET ON ET.EmployeeID = E.EmployeeID
-							INNER JOIN Territories T ON T.TerritoryID = ET.TerritoryID
-							INNER JOIN Region R ON R.RegionID = T.RegionID
-							WHERE R.RegionDescription = 'Western'
+			    FROM Employees E
+			    INNER JOIN EmployeeTerritories ET ON ET.EmployeeID = E.EmployeeID
+			    INNER JOIN Territories T ON T.TerritoryID = ET.TerritoryID
+			    INNER JOIN Region R ON R.RegionID = T.RegionID
+			    WHERE R.RegionDescription = 'Western'
 )
 SELECT O.OrderID AS [Order ID]
-	  ,S.CompanyName AS [Shipping Company Name]
+      ,S.CompanyName AS [Shipping Company Name]
       ,P.ProductID AS [Product ID] 
-	  ,P.ProductName AS [Product Name]
-	  ,S.CompanyName AS [Supplier Name]
-	  ,C.CategoryName AS [Category Name]
-	  ,OD.UnitPrice AS [Unit Price]
-	  ,OD.Quantity AS [Quantity]
-	  ,OD.Discount AS [Discount]
+      ,P.ProductName AS [Product Name]
+      ,S.CompanyName AS [Supplier Name]
+      ,C.CategoryName AS [Category Name]
+      ,OD.UnitPrice AS [Unit Price]
+      ,OD.Quantity AS [Quantity]
+      ,OD.Discount AS [Discount]
 FROM Products P
 INNER JOIN Suppliers SP ON SP.SupplierID = P.SupplierID
 INNER JOIN Categories C ON C.CategoryID = P.CategoryID
