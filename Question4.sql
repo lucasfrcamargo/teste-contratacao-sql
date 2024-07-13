@@ -1,8 +1,8 @@
---Crie uma query que obtenha a lista de produtos (ProductID, ProductName, UnitPrice) ativos, onde o custo dos produtos s„o menores que $20;
+--Crie uma query que obtenha a lista de produtos (ProductID, ProductName, UnitPrice) ativos, onde o custo dos produtos s√£o menores que $20;
 
 SELECT ProductID
-	  ,ProductName
-	  ,UnitPrice
+      ,ProductName
+      ,UnitPrice
 FROM Products
 WHERE Discontinued = 0
 AND UnitPrice < 20
