@@ -1,16 +1,16 @@
---Crie uma query que obtenha os números de pedidos e a lista de clientes (CompanyName, ContactName, Address e Phone)
---, que possuam 171 como código de área do telefone e que o frete dos pedidos custem entre $6.00 e $13.00;
+--Crie uma query que obtenha os nÃºmeros de pedidos e a lista de clientes (CompanyName, ContactName, Address e Phone)
+--, que possuam 171 como cÃ³digo de Ã¡rea do telefone e que o frete dos pedidos custem entre $6.00 e $13.00;
 WITH CUSTOMERS_171 AS ( SELECT DISTINCT CustomerID AS ID
-							FROM Customers
-							WHERE LEFT(Phone,5) = '(171)' -- LEFT é mais rapido que usar LIKE
+			FROM Customers
+			WHERE LEFT(Phone,5) = '(171)' -- LEFT Ã© mais rapido que usar LIKE
 )
-SELECT O.OrderID AS [Order ID]
+SELECT	   O.OrderID AS [Order ID]
 	  ,CM.CompanyName AS [Company Name]
 	  ,CM.ContactName AS [Contact Name]
 	  ,CM.Address AS [Address]
 	  ,CM.Phone AS [Phone]
 	  ,S.CompanyName AS [Shipping Company Name]
-      ,P.ProductID AS [Product ID] 
+      	  ,P.ProductID AS [Product ID] 
 	  ,P.ProductName AS [Product Name]
 	  ,S.CompanyName AS [Supplier Name]
 	  ,C.CategoryName AS [Category Name]
