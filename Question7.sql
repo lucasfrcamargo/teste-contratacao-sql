@@ -1,6 +1,6 @@
---Crie uma procedure que retorne cada produto e seu preÁo;
---Adicione ‡ procedure, criada na quest„o anterior, os par‚metros 'Codigo_Fornecedor' (permitindo escolher 1 ou mais) e 'Codigo_Categoria' (permitindo escolher 1 ou mais) e altere-a para atender a passagem desses par‚metros;
---Adicione ‡ procedure, criada na quest„o anterior, o par‚metro 'Codigo_Transportadora' (permitindo escolher 1 ou mais) e um outro par‚metro 'Tipo_Saida' para se optar por uma saÌda OLTP (Transacional) ou OLAP (Pivot).
+--Crie uma procedure que retorne cada produto e seu pre√ßo;
+--Adicione √† procedure, criada na quest√£o anterior, os par√¢metros 'Codigo_Fornecedor' (permitindo escolher 1 ou mais) e 'Codigo_Categoria' (permitindo escolher 1 ou mais) e altere-a para atender a passagem desses par√¢metros;
+--Adicione √† procedure, criada na quest√£o anterior, o par√¢metro 'Codigo_Transportadora' (permitindo escolher 1 ou mais) e um outro par√¢metro 'Tipo_Saida' para se optar por uma sa√≠da OLTP (Transacional) ou OLAP (Pivot).
 
 --EXEC sp_ProductPrice '1','1,2,6,8','1,3','OLAP'
 --SELECT * FROM PRODUCTS 
@@ -11,13 +11,13 @@ BEGIN
 	SET NOCOUNT ON;
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
---------- FAZ A DIVIS√O E VALIDA«√O DOS VALORES RECEBIDOS NOS PARAMETROS
+--------- FAZ A DIVIS√ÉO E VALIDA√á√ÉO DOS VALORES RECEBIDOS NOS PARAMETROS
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-IF @Codigo_Fornecedor IS NULL OR TRIM(@Codigo_Fornecedor) = '' BEGIN PRINT 'CÛdigo do fornecedor esta vazio' RETURN END
-IF @Codigo_Categoria IS NULL OR TRIM(@Codigo_Categoria) = '' BEGIN PRINT 'CÛdigo da categoria esta vazio' RETURN END
-IF @Codigo_Transportadora IS NULL OR TRIM(@Codigo_Transportadora) = '' BEGIN PRINT 'CÛdigo da transportadora esta vazio' RETURN END
-IF @Tipo_Saida NOT IN ('OLTP','OLAP') BEGIN PRINT 'Tipo de saÌda inv·lida' RETURN END
+IF @Codigo_Fornecedor IS NULL OR TRIM(@Codigo_Fornecedor) = '' BEGIN PRINT 'C√≥digo do fornecedor esta vazio' RETURN END
+IF @Codigo_Categoria IS NULL OR TRIM(@Codigo_Categoria) = '' BEGIN PRINT 'C√≥digo da categoria esta vazio' RETURN END
+IF @Codigo_Transportadora IS NULL OR TRIM(@Codigo_Transportadora) = '' BEGIN PRINT 'C√≥digo da transportadora esta vazio' RETURN END
+IF @Tipo_Saida NOT IN ('OLTP','OLAP') BEGIN PRINT 'Tipo de sa√≠da inv√°lida' RETURN END
 
 CREATE TABLE #CODFORNECEDOR (CodFornecedor NVARCHAR(10))
 
@@ -40,20 +40,20 @@ FROM OPENJSON('["' + REPLACE(@Codigo_Transportadora, ',', '","') + '"]')
 
 IF EXISTS (SELECT NULL FROM #CODFORNECEDOR WHERE TRY_CONVERT(INT, CodFornecedor) IS NULL)
 BEGIN
-    PRINT 'CÛdigo do fornecedor est· em formato incorreto'
+    PRINT 'C√≥digo do fornecedor est√° em formato incorreto'
 	RETURN 
 END
 
 IF EXISTS (SELECT NULL FROM #CODCATEGORIA WHERE TRY_CONVERT(INT, CodCategoria) IS NULL)
 BEGIN
-	PRINT 'CÛdigo da categoria est· em formato incorreto'
+	PRINT 'C√≥digo da categoria est√° em formato incorreto'
     RETURN 
 END
 
 
 IF EXISTS (SELECT NULL FROM #CODTRANSPORTADORA WHERE TRY_CONVERT(INT, CodTransportadora) IS NULL)
 BEGIN
-	PRINT 'CÛdigo da transportadora est· em formato incorreto'
+	PRINT 'C√≥digo da transportadora est√° em formato incorreto'
     RETURN 
 END;
 
@@ -68,9 +68,9 @@ BEGIN
 WITH COD_FORNECEDOR AS (SELECT CONVERT(INT,CodFornecedor) AS CodFornecedor FROM #CODFORNECEDOR ),
 	 COD_CATEGORIA AS (SELECT CONVERT(INT,CodCategoria) AS CodCategoria  FROM #CODCATEGORIA ),
 	 COD_TRANSPORTADORA AS (SELECT CONVERT(INT,CodTransportadora) AS CodTransportadora FROM #CODTRANSPORTADORA )
-SELECT O.OrderID AS [Order ID]
+SELECT     O.OrderID AS [Order ID]
 	  ,S.CompanyName AS [Shipping Company Name]
-      ,P.ProductID AS [Product ID] 
+          ,P.ProductID AS [Product ID] 
 	  ,P.ProductName AS [Product Name]
 	  ,S.CompanyName AS [Supplier Name]
 	  ,C.CategoryName AS [Category Name]
@@ -98,14 +98,14 @@ BEGIN
 WITH COD_FORNECEDOR AS (SELECT CONVERT(INT,CodFornecedor) AS CodFornecedor FROM #CODFORNECEDOR ),
 	 COD_CATEGORIA AS (SELECT CONVERT(INT,CodCategoria) AS CodCategoria  FROM #CODCATEGORIA ),
 	 COD_TRANSPORTADORA AS (SELECT CONVERT(INT,CodTransportadora) AS CodTransportadora FROM #CODTRANSPORTADORA )
-SELECT DISTINCT P.ProductID AS [Product ID] 
-			   ,P.ProductName AS [Product Name]
-			   ,S.CompanyName AS [Shipping Company Name]
-			   ,COUNT(O.OrderID) AS [Qty Order]
-			   ,ROUND(SUM((OD.UnitPrice - (OD.UnitPrice * OD.Discount)) * OD.Quantity),2) AS [Total Sales]
-			   ,ROUND(AVG(OD.UnitPrice),2) AS [Average Unit Price]
-			   ,ROUND(AVG(OD.UnitPrice - (OD.UnitPrice * OD.Discount)),2) AS [Average Unit Price with Discount]
-			   ,MAX(OD.Discount) AS [Biggest Discount]
+SELECT DISTINCT  P.ProductID AS [Product ID] 
+		,P.ProductName AS [Product Name]
+		,S.CompanyName AS [Shipping Company Name]
+		,COUNT(O.OrderID) AS [Qty Order]
+		,ROUND(SUM((OD.UnitPrice - (OD.UnitPrice * OD.Discount)) * OD.Quantity),2) AS [Total Sales]
+		,ROUND(AVG(OD.UnitPrice),2) AS [Average Unit Price]
+		,ROUND(AVG(OD.UnitPrice - (OD.UnitPrice * OD.Discount)),2) AS [Average Unit Price with Discount]
+		,MAX(OD.Discount) AS [Biggest Discount]
 FROM Products P
 INNER JOIN Suppliers SP ON SP.SupplierID = P.SupplierID
 INNER JOIN Categories C ON C.CategoryID = P.CategoryID
@@ -116,8 +116,8 @@ WHERE P.SupplierID IN (SELECT CodFornecedor FROM COD_FORNECEDOR)
 AND P.CategoryID IN (SELECT CodCategoria FROM COD_CATEGORIA)
 AND S.ShipperID IN (SELECT CodTransportadora FROM COD_TRANSPORTADORA)
 GROUP BY P.ProductID
-		,P.ProductName
-		,S.CompanyName
+	,P.ProductName
+	,S.CompanyName
 
 END
 
